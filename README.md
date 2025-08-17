@@ -2,6 +2,16 @@
 
 Frontend/portal for Fortigate VPN connection manager
 
+## Docker development environment
+
+To run the application along with MongoDB, LDAP, and Fortigate services, use Docker:
+
+```
+docker compose up --build
+```
+
+This uses the included `Dockerfile` and `docker-compose.yml` to provision all services.
+
 ## Building and running
 
 1. Get this repo, obviously

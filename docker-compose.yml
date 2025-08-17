@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    command: npm start
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/meteor
+      - ROOT_URL=http://localhost
+      - PORT=3000
+    volumes:
+      - .:/app
+    depends_on:
+      - mongo
+      - ldap
+      - fortigate
+
+  mongo:
+    image: mongo:5
+    restart: always
+    volumes:
+      - ./docker-data/mongo:/data/db
+    ports:
+      - "27017:27017"
+
+  ldap:
+    image: osixia/openldap:1.5.0
+    restart: always
+    environment:
+      - LDAP_ORGANISATION=Example Inc.
+      - LDAP_DOMAIN=example.org
+      - LDAP_ADMIN_PASSWORD=admin
+    ports:
+      - "1389:389"
+    volumes:
+      - ./docker-data/ldap/data:/var/lib/ldap
+      - ./docker-data/ldap/config:/etc/ldap/slapd.d
+      - ./docker-data/ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
+
+  fortigate:
+    image: fortinet/fortigate
+    restart: always
+    ports:
+      - "8443:443"
+    volumes:
+      - ./docker-data/fortigate:/data
+    environment:
+      - ACCEPT_LICENSE=YES
