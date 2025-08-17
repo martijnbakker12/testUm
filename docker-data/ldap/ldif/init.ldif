@@ -1,0 +1,22 @@
+dn: dc=example,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: Example Inc
+dc: example
+
+# People OU
+
+dn: ou=people,dc=example,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+# Example user
+
+dn: uid=john,ou=people,dc=example,dc=org
+objectClass: inetOrgPerson
+sn: Doe
+cn: John Doe
+uid: john
+userPassword: password
